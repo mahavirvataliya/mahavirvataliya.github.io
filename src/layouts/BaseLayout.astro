@@ -1,0 +1,67 @@
+---
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  path?: string;
+  noindex?: boolean;
+  /** Hide the site header/footer (not used for v1, but available). */
+  bare?: boolean;
+}
+
+const { title, description, image, path, noindex, bare = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#07080d" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Projects" href="/rss.xml" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    />
+    <SEO title={title} description={description} image={image} path={path} noindex={noindex} />
+
+    <!-- Structured data: person -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Mahavir Vataliya',
+        jobTitle: 'Full-Stack Engineer',
+        email: 'mailto:mahavir.vataliya110@gmail.com',
+        telephone: '+91-8140257443',
+        address: { '@type': 'PostalAddress', addressLocality: 'Vadodara', addressCountry: 'IN' },
+        url: 'https://mahavir-portfolio.pages.dev',
+        sameAs: [
+          'https://github.com/mahavirvataliya',
+          'https://linkedin.com/in/mahavirvataliya',
+        ],
+      })}
+    />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white"
+      >Skip to content</a
+    >
+    {!bare && <Header />}
+    <main id="main">
+      <slot />
+    </main>
+    {!bare && <Footer />}
+  </body>
+</html>

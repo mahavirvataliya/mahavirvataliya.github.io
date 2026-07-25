@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Icon from '../../components/Icon.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const categories = ['All', 'AI', 'Web', 'Mobile', 'Infra'];
+---
+
+<BaseLayout
+  title="Projects"
+  description="Selected work by Mahavir Vataliya — agentic AI platforms, high-traffic web apps, AI voice agents, and more."
+  path="/projects"
+>
+  <section class="container-x pt-16 sm:pt-20">
+    <a
+      href="/"
+      class="inline-flex items-center gap-1.5 text-sm text-slate-400 transition hover:text-white"
+    >
+      <Icon name="arrowRight" class="h-4 w-4 rotate-180" />
+      Back home
+    </a>
+
+    <h1 class="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">Projects</h1>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-slate-400">
+      A selection of products I've owned end-to-end — from customer discovery to production.
+      Each card opens a detailed case study.
+    </p>
+
+    <!-- Category filter (progressive enhancement; links to sections) -->
+    <div class="mt-8 flex flex-wrap gap-2" data-reveal>
+      {
+        categories.map((c, i) => (
+          <button
+            type="button"
+            class:list={[
+              'rounded-full border px-4 py-1.5 text-sm font-medium transition',
+              i === 0
+                ? 'border-brand-400/50 bg-brand-500/15 text-brand-300'
+                : 'border-white/10 bg-white/5 text-slate-300 hover:border-brand-400/40 hover:text-white',
+            ]}
+            data-filter={c.toLowerCase()}
+          >
+            {c}
+          </button>
+        ))
+      }
+    </div>
+
+    <div
+      class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      id="projects-grid"
+    >
+      {projects.map((project) => (
+        <div data-project-card data-category={project.data.category}>
+          <ProjectCard project={project} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <script>
+    // Progressive category filter — vanilla JS.
+    const buttons = document.querySelectorAll('[data-filter]');
+    const cards = document.querySelectorAll('[data-project-card]');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = (btn as HTMLElement).dataset.filter;
+        // Toggle active state.
+        buttons.forEach((b) => {
+          b.classList.remove('border-brand-400/50', 'bg-brand-500/15', 'text-brand-300');
+          b.classList.add('border-white/10', 'bg-white/5', 'text-slate-300');
+        });
+        btn.classList.add('border-brand-400/50', 'bg-brand-500/15', 'text-brand-300');
+        btn.classList.remove('border-white/10', 'bg-white/5', 'text-slate-300');
+
+        cards.forEach((card) => {
+          const cat = (card as HTMLElement).dataset.category;
+          const show = filter === 'all' || filter === cat?.toLowerCase();
+          (card as HTMLElement).style.display = show ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</BaseLayout>

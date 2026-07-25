@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Fonts ---- */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-ink-950 text-slate-300 font-sans antialiased;
+    background-image:
+      radial-gradient(60% 50% at 50% -10%, rgba(99, 102, 241, 0.18) 0%, rgba(7, 8, 13, 0) 70%),
+      radial-gradient(40% 40% at 100% 0%, rgba(34, 211, 238, 0.08) 0%, rgba(7, 8, 13, 0) 60%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    @apply bg-brand-500/30 text-white;
+  }
+
+  /* Respect reduced motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Section container. */
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+  }
+
+  /* Gradient text accent. */
+  .text-gradient {
+    @apply bg-gradient-brand bg-clip-text text-transparent;
+  }
+
+  /* Eyebrow label above headings. */
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.2em] text-accent-400;
+  }
+
+  /* Generic card surface. */
+  .card {
+    @apply rounded-2xl border border-white/10 bg-ink-850/60 backdrop-blur-sm transition duration-300;
+  }
+  .card-hover {
+    @apply hover:border-brand-500/40 hover:bg-ink-800/70 hover:shadow-[0_0_40px_-12px_rgba(99,102,241,0.5)];
+  }
+
+  /* Primary / secondary buttons. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-brand text-white shadow-lg shadow-brand-900/40 hover:brightness-110 hover:shadow-brand-700/40;
+  }
+  .btn-ghost {
+    @apply btn border border-white/15 bg-white/5 text-slate-200 hover:border-brand-400/50 hover:bg-white/10;
+  }
+
+  /* Subtle hairline divider. */
+  .hr-soft {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent;
+  }
+
+  /* Tag / pill for tech stack. */
+  .pill {
+    @apply inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-xs text-slate-300;
+  }
+}
+
+/* Scrollbar styling for dark theme. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #262833;
+  border-radius: 8px;
+  border: 2px solid #0a0a0f;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3d4d;
+}

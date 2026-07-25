@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { site } from '../data/site';
+
+const resumes = [
+  {
+    title: 'Full-Stack & AI Product Engineer',
+    detail:
+      'Detailed résumé — full-stack engineering, agentic AI products, scaling, and cloud/DevOps. The recommended version.',
+    file: '/Mahavir_Vataliya_FullStack_AI_Product_Engineer.pdf',
+    filename: 'Mahavir_Vataliya_FullStack_AI_Product_Engineer.pdf',
+    size: '50 KB',
+    primary: true,
+  },
+  {
+    title: 'Software Engineer (legacy)',
+    detail:
+      'Earlier-format résumé. Kept for reference; the Full-Stack version above is the current one.',
+    file: '/Mahavir_Resume_CA.pdf',
+    filename: 'Mahavir_Resume_CA.pdf',
+    size: '453 KB',
+    primary: false,
+  },
+];
+---
+
+<BaseLayout
+  title="Resume"
+  description={`Download Mahavir Vataliya's résumé — Full-Stack Engineer specialising in React, NextJS, Supabase, Python, and Agentic AI.`}
+  path="/resume"
+>
+  <section class="container-x pt-16 sm:pt-20">
+    <SectionHeading
+      eyebrow="Resume"
+      title="Download my résumé."
+      description="A one-page summary of my experience, skills, and shipped work. Pick the version that fits — the Full-Stack & AI Product Engineer version is the current one."
+    />
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2">
+      {
+        resumes.map((r) => (
+          <div class:list={['card card-hover p-7', r.primary && 'ring-1 ring-brand-500/40']}>
+            {r.primary && (
+              <span class="mb-4 inline-flex items-center gap-1.5 rounded-full border border-brand-400/30 bg-brand-500/15 px-3 py-1 text-xs text-brand-300">
+                <Icon name="star" class="h-3 w-3" />
+                Current
+              </span>
+            )}
+            <h3 class="text-xl font-bold text-white">{r.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-slate-400">{r.detail}</p>
+            <p class="mt-3 font-mono text-xs text-slate-500">PDF · {r.size}</p>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href={r.file} download={r.filename} class="btn-primary">
+                <Icon name="download" class="h-4 w-4" />
+                Download
+              </a>
+              <a href={r.file} target="_blank" rel="noopener noreferrer" class="btn-ghost">
+                <Icon name="external" class="h-4 w-4" />
+                Open in new tab
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Quick contact strip -->
+    <div class="card mt-10 flex flex-col gap-4 p-7 sm:flex-row sm:items-center sm:justify-between" data-reveal>
+      <div>
+        <h3 class="font-semibold text-white">Prefer to talk directly?</h3>
+        <p class="mt-1 text-sm text-slate-400">Reach me on any of these — I usually reply within a day.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href={`mailto:${site.email}`} class="btn-ghost">
+          <Icon name="email" class="h-4 w-4" />
+          {site.email}
+        </a>
+        <a href="/contact" class="btn-primary">
+          Contact form
+          <Icon name="arrowRight" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

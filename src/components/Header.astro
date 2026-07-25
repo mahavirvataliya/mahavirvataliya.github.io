@@ -1,0 +1,112 @@
+---
+import { navItems, site } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-white/5 bg-ink-950/80 backdrop-blur-md"
+  data-header
+>
+  <div class="container-x flex h-16 items-center justify-between">
+    <!-- Logo / wordmark -->
+    <a
+      href="/"
+      class="group flex items-center gap-2 font-semibold text-white"
+      aria-label={`${site.name} — home`}
+    >
+      <span
+        class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-brand text-sm font-bold text-white shadow-lg shadow-brand-900/40"
+      >
+        MV
+      </span>
+      <span class="hidden sm:inline">
+        Mahavir<span class="text-accent-400">.</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href="/resume" class="btn-primary hidden sm:inline-flex">
+        <Icon name="download" class="h-4 w-4" />
+        Resume
+      </a>
+
+      <!-- Mobile menu toggle -->
+      <button
+        type="button"
+        class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-slate-200 md:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        data-menu-toggle
+      >
+        <Icon name="menu" class="h-5 w-5" data-menu-open-icon />
+        <Icon name="close" class="hidden h-5 w-5" data-menu-close-icon />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav drawer -->
+  <nav
+    id="mobile-nav"
+    class="hidden border-t border-white/5 bg-ink-900 md:hidden"
+    aria-label="Mobile"
+    data-mobile-nav
+  >
+    <div class="container-x flex flex-col gap-1 py-4">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="rounded-lg px-3 py-3 text-base font-medium text-slate-200 transition hover:bg-white/5 hover:text-white"
+            data-mobile-link
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/resume" class="btn-primary mt-2 w-full" data-mobile-link>
+        <Icon name="download" class="h-4 w-4" />
+        Download Resume
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Tiny, dependency-free mobile menu. Vanilla JS — no hydration cost.
+  const toggle = document.querySelector('[data-menu-toggle]');
+  const nav = document.querySelector('[data-mobile-nav]');
+  const openIcon = document.querySelector('[data-menu-open-icon]');
+  const closeIcon = document.querySelector('[data-menu-close-icon]');
+
+  function setOpen(open: boolean) {
+    if (!nav || !toggle) return;
+    nav.classList.toggle('hidden', !open);
+    toggle.setAttribute('aria-expanded', String(open));
+    openIcon?.classList.toggle('hidden', open);
+    closeIcon?.classList.toggle('hidden', !open);
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = !nav?.classList.contains('hidden');
+    setOpen(!isOpen);
+  });
+  // Close on link click.
+  document.querySelectorAll('[data-mobile-link]').forEach((link) => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+</script>

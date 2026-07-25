@@ -1,0 +1,44 @@
+# ============================================================================
+# Cloudflare Pages caching headers.
+# This file is what gives the site near-100% edge cache hit rate.
+# Docs: https://developers.cloudflare.com/pages/configuration/headers/
+# ============================================================================
+
+# 1) Astro's hashed build assets — CSS/JS/images/chunks under /_astro/.
+#    Their filenames are content-hashed, so they're safe to cache forever.
+#    Browsers and the Cloudflare edge can serve them without revalidation.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 2) Other static assets with long cache + revalidation on change.
+#    Fonts/images referenced by URL also benefit from long edge caching.
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+/*.png
+  Cache-Control: public, max-age=604800
+/*.jpg
+  Cache-Control: public, max-age=604800
+/*.jpeg
+  Cache-Control: public, max-age=604800
+/*.webp
+  Cache-Control: public, max-age=604800
+/*.svg
+  Cache-Control: public, max-age=604800
+/*.ico
+  Cache-Control: public, max-age=604800
+
+# 3) Résumé PDFs — cache for a week, revalidate. Long enough to help repeat
+#    visitors, short enough that an updated resume propagates quickly.
+/*.pdf
+  Cache-Control: public, max-age=604800
+
+# 4) HTML pages and everything else (incl. the homepage).
+#    Revalidate every time so a new deploy is visible immediately,
+#    while still letting the edge serve stale content instantly.
+#    Cloudflare serves from cache and revalidates in the background.
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

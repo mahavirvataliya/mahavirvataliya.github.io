@@ -1,0 +1,51 @@
+---
+import { site } from '../data/site';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  /** Path under /public to an OG image, or absolute URL. */
+  image?: string;
+  /** Override canonical path (e.g. "/projects/knogen-ai"). */
+  path?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.summary,
+  image = '/og-default.svg',
+  path = Astro.url.pathname,
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
+
+const origin = Astro.site?.origin ?? 'https://mahavir-portfolio.pages.dev';
+const canonical = new URL(path, origin).href;
+const ogImage = image.startsWith('http') ? image : new URL(image, origin).href;
+---
+
+<!-- Primary meta -->
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Performance hints -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

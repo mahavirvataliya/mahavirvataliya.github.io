@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07080d" />
+      <stop offset="100%" stop-color="#0f1018" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#22d3ee" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#07080d" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#glow)" />
+
+  <!-- Grid lines -->
+  <g stroke="#ffffff" stroke-opacity="0.04" stroke-width="1">
+    <path d="M0 0 H1200 M0 105 H1200 M0 210 H1200 M0 315 H1200 M0 420 H1200 M0 525 H1200 M0 630 H1200" />
+    <path d="M0 0 V630 M150 0 V630 M300 0 V630 M450 0 V630 M600 0 V630 M750 0 V630 M900 0 V630 M1050 0 V630 M1200 0 V630" />
+  </g>
+
+  <!-- Monogram badge -->
+  <rect x="100" y="120" width="90" height="90" rx="20" fill="url(#accent)" opacity="0.15" />
+  <text x="145" y="184" font-family="'JetBrains Mono', monospace" font-size="38" font-weight="700" text-anchor="middle" fill="url(#accent)">MV</text>
+
+  <!-- Eyebrow -->
+  <text x="100" y="280" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="4" fill="#22d3ee">FULL-STACK · AGENTIC AI</text>
+
+  <!-- Name -->
+  <text x="100" y="370" font-family="Inter, sans-serif" font-size="76" font-weight="800" fill="#ffffff">Mahavir Vataliya</text>
+
+  <!-- Role -->
+  <text x="100" y="440" font-family="Inter, sans-serif" font-size="34" font-weight="500" fill="#94a3b8">React · NextJS · Supabase · Python · LangChain</text>
+
+  <!-- Tagline -->
+  <text x="100" y="520" font-family="Inter, sans-serif" font-size="26" fill="#64748b">8+ years · 1M+ users scaled · 60% cloud cost cut</text>
+</svg>

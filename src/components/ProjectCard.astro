@@ -1,0 +1,67 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+export interface Props {
+  project: CollectionEntry<'projects'>;
+  /** Render in a wider "featured" style. */
+  featured?: boolean;
+}
+
+const { project, featured = false } = Astro.props;
+const { title, tagline, category, period, stack, accent, highlights } = project.data;
+
+const accentMap: Record<string, { ring: string; chip: string; glow: string; text: string }> = {
+  indigo: { ring: 'hover:border-brand-500/50', chip: 'bg-brand-500/15 text-brand-300', glow: 'group-hover:shadow-[0_0_50px_-15px_rgba(99,102,241,0.6)]', text: 'text-brand-300' },
+  cyan: { ring: 'hover:border-accent-500/50', chip: 'bg-accent-500/15 text-accent-400', glow: 'group-hover:shadow-[0_0_50px_-15px_rgba(34,211,238,0.6)]', text: 'text-accent-400' },
+  emerald: { ring: 'hover:border-emerald-500/50', chip: 'bg-emerald-500/15 text-emerald-300', glow: 'group-hover:shadow-[0_0_50px_-15px_rgba(16,185,129,0.6)]', text: 'text-emerald-300' },
+  amber: { ring: 'hover:border-amber-500/50', chip: 'bg-amber-500/15 text-amber-300', glow: 'group-hover:shadow-[0_0_50px_-15px_rgba(245,158,11,0.6)]', text: 'text-amber-300' },
+  rose: { ring: 'hover:border-rose-500/50', chip: 'bg-rose-500/15 text-rose-300', glow: 'group-hover:shadow-[0_0_50px_-15px_rgba(244,63,94,0.6)]', text: 'text-rose-300' },
+  violet: { ring: 'hover:border-violet-500/50', chip: 'bg-violet-500/15 text-violet-300', glow: 'group-hover:shadow-[0_0_50px_-15px_rgba(139,92,246,0.6)]', text: 'text-violet-300' },
+};
+const a = accentMap[accent] ?? accentMap.indigo;
+---
+
+<a
+  href={`/projects/${project.slug}`}
+  class={`group card card-hover relative flex flex-col overflow-hidden p-6 ${a.ring} ${a.glow}`}
+  data-reveal
+>
+  <!-- Top row: category + period -->
+  <div class="mb-4 flex items-center justify-between">
+    <span class={`pill ${a.chip} border-transparent`}>{category}</span>
+    <span class="font-mono text-xs text-slate-500">{period}</span>
+  </div>
+
+  <!-- Title + tagline -->
+  <h3 class={`text-xl font-bold text-white transition group-hover:${a.text}`}>
+    {title}
+  </h3>
+  <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{tagline}</p>
+
+  <!-- Top highlights (featured shows 2, regular shows 1) -->
+  <ul class="mt-4 space-y-1.5">
+    {highlights.slice(0, featured ? 2 : 1).map((h) => (
+      <li class="flex gap-2 text-xs text-slate-400">
+        <span class={`mt-1 h-1 w-1 shrink-0 rounded-full ${a.chip.split(' ')[0]}`}></span>
+        <span>{h}</span>
+      </li>
+    ))}
+  </ul>
+
+  <!-- Stack -->
+  <div class="mt-5 flex flex-wrap gap-1.5">
+    {stack.slice(0, featured ? 5 : 4).map((s) => (
+      <span class="pill text-[10px]">{s}</span>
+    ))}
+    {stack.length > (featured ? 5 : 4) && (
+      <span class="pill text-[10px] text-slate-500">+{stack.length - (featured ? 5 : 4)}</span>
+    )}
+  </div>
+
+  <!-- CTA -->
+  <div class={`mt-6 inline-flex items-center gap-1.5 text-sm font-semibold ${a.text}`}>
+    Read case study
+    <Icon name="arrowRight" class="h-4 w-4 transition group-hover:translate-x-1" />
+  </div>
+</a>

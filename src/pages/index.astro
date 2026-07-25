@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Skills from '../components/Skills.astro';
+import FeaturedProjects from '../components/FeaturedProjects.astro';
+import ExperienceTimeline from '../components/ExperienceTimeline.astro';
+import Achievements from '../components/Achievements.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout description={site.summary}>
+  <Hero />
+  <div class="hr-soft"></div>
+  <About />
+  <div class="hr-soft"></div>
+  <Skills />
+  <div class="hr-soft"></div>
+  <FeaturedProjects />
+  <div class="hr-soft"></div>
+  <ExperienceTimeline />
+  <div class="hr-soft"></div>
+  <Achievements />
+  <div class="hr-soft"></div>
+  <ContactCTA />
+
+  <!-- Scroll-reveal: tiny IntersectionObserver, no framework cost. -->
+  <script>
+    const els = document.querySelectorAll('[data-reveal]');
+    if ('IntersectionObserver' in window && els.length) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              (entry.target as HTMLElement).classList.add('animate-fade-up');
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
+      els.forEach((el) => io.observe(el));
+    } else {
+      // No observer support — just show everything.
+      els.forEach((el) => el.classList.add('animate-fade-up'));
+    }
+  </script>
+</BaseLayout>
