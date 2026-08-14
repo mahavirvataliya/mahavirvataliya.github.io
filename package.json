@@ -2,6 +2,7 @@
   "name": "mahavir-portfolio",
   "type": "module",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.18.0",
   "description": "Portfolio website for Mahavir Vataliya — Full-Stack & Agentic AI Engineer",
   "scripts": {
     "dev": "astro dev",
