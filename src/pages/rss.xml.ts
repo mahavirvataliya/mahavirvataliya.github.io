@@ -10,7 +10,7 @@ export async function GET(context: { site: URL }) {
     title: 'Mahavir Vataliya — Blog',
     description:
       'Engineering notes from real systems: production AI, performance, infrastructure, and remote-first collaboration.',
-    site: context.site ?? 'https://mahavir-portfolio.pages.dev',
+    site: context.site ?? 'https://mahavirvataliya.github.io',
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,

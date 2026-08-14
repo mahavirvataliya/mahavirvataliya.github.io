@@ -110,20 +110,32 @@ The form uses [Web3Forms](https://web3forms.com) — free, no backend.
 
 Until a key is set, the form renders but submissions show a friendly error directing people to email directly.
 
-## Deploy to Cloudflare Pages
+## Deploy
 
-### Option A — Git integration (recommended)
+### Option A — GitHub Pages (mahavirvataliya.github.io) — current setup
+
+The repo ships with `.github/workflows/deploy.yml`. One-time setup:
+
+1. Push this repo to **`github.com/mahavirvataliya/mahavirvataliya.github.io`** (a user-site repo — the workflow's `main` branch *is* the source, Pages serves the built output).
+   - Alternatively use any repo name and change the site URL (see "Custom domain" below), since a project repo serves from `/<repo-name>/` and needs `base` config.
+2. Repo **Settings → Pages → Source: GitHub Actions**.
+3. (Optional) Add the `WEB3FORMS_ACCESS_KEY` secret under **Settings → Secrets and variables → Actions** so the contact form sends.
+4. Push to `main` — the workflow builds with pnpm and publishes. Your site goes live at `https://mahavirvataliya.github.io`.
+
+**Caching caveat:** GitHub Pages ignores `public/_headers` and serves everything with `Cache-Control: max-age=600` (10 minutes). The site still works perfectly — hashed assets revalidate cheaply — but you don't get Cloudflare's year-long immutable asset caching. To get it: put Cloudflare (free) in front of the GitHub Pages domain — add the site in Cloudflare, point a custom domain's CNAME at it, and Cloudflare's edge caches everything per the `_headers`-style rules you define.
+
+### Option B — Cloudflare Pages (best caching, no GitHub setup)
 
 1. Push this repo to GitHub/GitLab.
 2. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**.
-3. Select the repo and configure:
+3. Configure:
    - **Framework preset:** Astro
    - **Build command:** `pnpm build`
    - **Output directory:** `dist`
    - **Environment variables:** `PUBLIC_WEB3FORMS_ACCESS_KEY` (and `NODE_VERSION=24` if needed)
-4. **Save and Deploy.** Every push auto-deploys; Cloudflare purges the edge cache on each deploy.
+4. **Save and Deploy.** Every push auto-deploys; `public/_headers` takes effect and Cloudflare purges the edge cache on each deploy.
 
-### Option B — Wrangler CLI
+Or via Wrangler CLI:
 
 ```bash
 pnpm build
@@ -132,7 +144,8 @@ npx wrangler pages deploy dist --project-name mahavir-portfolio
 
 ### Custom domain
 
-Cloudflare Pages → your project → **Custom domains → Set up a domain**. Update `site` in `astro.config.mjs` and the `Sitemap:` URL in `public/robots.txt` to your final domain.
+- **GitHub Pages:** repo → Settings → Pages → Custom domain. Then update `site` in `astro.config.mjs` and the `Sitemap:` URL in `public/robots.txt`.
+- **Cloudflare Pages:** project → **Custom domains → Set up a domain**. Same config updates as above.
 
 ## How the caching works
 

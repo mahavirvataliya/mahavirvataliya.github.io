@@ -1,6 +1,9 @@
 # ============================================================================
-# Cloudflare Pages caching headers.
-# This file is what gives the site near-100% edge cache hit rate.
+# Cloudflare Pages caching headers — ONLY used when hosting on Cloudflare
+# Pages (or with Cloudflare in front of the site). GitHub Pages IGNORES this
+# file entirely and serves everything with Cache-Control: max-age=600.
+#
+# This file is what gives the site near-100% edge cache hit rate on Cloudflare.
 # Docs: https://developers.cloudflare.com/pages/configuration/headers/
 # ============================================================================
 

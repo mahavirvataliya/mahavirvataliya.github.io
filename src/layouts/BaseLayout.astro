@@ -15,6 +15,7 @@ export interface Props {
 }
 
 const { title, description, image, path, noindex, bare = false } = Astro.props;
+const origin = Astro.site?.origin ?? 'https://mahavirvataliya.github.io';
 ---
 
 <!doctype html>
@@ -46,7 +47,7 @@ const { title, description, image, path, noindex, bare = false } = Astro.props;
         email: 'mailto:mahavir.vataliya110@gmail.com',
         telephone: '+91-8140257443',
         address: { '@type': 'PostalAddress', addressLocality: 'Vadodara', addressCountry: 'IN' },
-        url: 'https://mahavir-portfolio.pages.dev',
+        url: origin,
         sameAs: [
           'https://github.com/mahavirvataliya',
           'https://linkedin.com/in/mahavirvataliya',

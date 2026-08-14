@@ -11,7 +11,7 @@ import sitemap from '@astrojs/sitemap';
 // (mobile menu, scroll-reveal, contact form, project filter) is vanilla JS,
 // so the shipped JS is ~2 KB instead of a ~200 KB runtime.
 
-const SITE = 'https://mahavir-portfolio.pages.dev';
+const SITE = 'https://mahavirvataliya.github.io';
 
 // https://astro.build/config
 export default defineConfig({
