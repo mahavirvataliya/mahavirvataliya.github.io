@@ -9,8 +9,8 @@ export const site = {
   role: 'Full-Stack Engineer',
   headline: 'Full-Stack Engineer — React, NextJS, Supabase, Python & Agentic AI',
   tagline: 'I own the full loop: customer conversation → product decision → build → deploy → production traces → iterate.',
-  location: 'Vadodara, India (Remote)',
-  availability: 'Open to remote roles & contract work (US / EU / India)',
+  location: 'Vadodara, India',
+  availability: 'Open to senior remote roles — full-stack, platform & AI product engineering',
   email: 'mahavir.vataliya110@gmail.com',
   phone: '+91 81402 57443',
   yearsExperience: '8+ years',
@@ -19,16 +19,20 @@ export const site = {
     'customer conversation → product decision → build → deploy → production traces → iterate. ' +
     'Hands-on across React, NextJS, Supabase, Python (FastAPI), and TypeScript/Node.js, with shipped ' +
     'agentic AI products. Scaled a B2B/B2C platform to 1M+ users at 99%+ uptime while cutting ' +
-    'infrastructure cost 60%. Fully remote for 6+ years working directly with US and EU B2B clients.',
+    'infrastructure cost 60% (self-hosted Supabase). Fully remote for 6+ years working directly with ' +
+    'US and EU B2B clients.',
 } as const;
 
 export type SocialLink = {
   label: string;
   href: string;
   handle: string;
-  icon: 'github' | 'linkedin' | 'email' | 'phone';
+  icon: 'github' | 'linkedin' | 'email' | 'phone' | 'stackoverflow' | 'medium';
 };
 
+// TODO: fill in your Stack Overflow & Medium profile URLs, then add entries here:
+//   { label: 'Stack Overflow', href: 'https://stackoverflow.com/users/<your-id>', handle: '<your-handle>', icon: 'stackoverflow' },
+//   { label: 'Medium', href: 'https://medium.com/@<your-handle>', handle: '@<your-handle>', icon: 'medium' },
 export const socials: SocialLink[] = [
   { label: 'GitHub', href: 'https://github.com/mahavirvataliya', handle: 'mahavirvataliya', icon: 'github' },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/mahavirvataliya', handle: 'mahavirvataliya', icon: 'linkedin' },
@@ -38,12 +42,13 @@ export const socials: SocialLink[] = [
 
 export type NavItem = { label: string; href: string };
 
+// Resume also has a dedicated header button, so it's not repeated in nav.
 export const navItems: NavItem[] = [
   { label: 'About', href: '/#about' },
   { label: 'Skills', href: '/#skills' },
   { label: 'Projects', href: '/projects' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Experience', href: '/#experience' },
-  { label: 'Resume', href: '/resume' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -128,14 +133,114 @@ export const skillGroups: SkillGroup[] = [
     items: [
       'AWS (Lambda, EC2, S3, RDS, Elastic Beanstalk, CloudFront)',
       'Azure',
+      'Cloudflare (Pages, CDN, Zero Trust, Stream)',
       'Docker',
       'Terraform',
       'CI/CD (GitHub Actions, GitLab CI)',
       'Serverless',
-      'Cloudflare Zero Trust + Coolify',
+      'Coolify (self-hosted PaaS)',
     ],
   },
 ];
+
+/** How I work — the operating principles. Signals culture-fit for remote-first teams. */
+export type WayOfWorking = { title: string; detail: string; icon: string };
+
+export const waysOfWorking: WayOfWorking[] = [
+  {
+    title: 'Async-first, written-first',
+    detail:
+      '6+ years remote working directly with US and EU B2B clients. Decisions live in writing, updates don\u2019t need a meeting, and handoffs survive timezones.',
+    icon: 'observability',
+  },
+  {
+    title: 'Direct customer discovery',
+    detail:
+      'I sit in discovery calls with non-technical customers and translate what they say into what they actually need — before writing any code.',
+    icon: 'briefcase',
+  },
+  {
+    title: 'Signal over one-off feedback',
+    detail:
+      'I separate one-off feedback from roadmap signal: one customer\u2019s workaround isn\u2019t a feature request, but three of them are a pattern.',
+    icon: 'star',
+  },
+  {
+    title: 'Build-vs-buy discipline',
+    detail:
+      'The right default isn\u2019t always a managed service — self-hosting Supabase on Aurora Serverless cut our cloud spend 60%. I do the math before picking.',
+    icon: 'cloud',
+  },
+  {
+    title: 'AI agents as daily leverage',
+    detail:
+      'Claude Code with custom skills, hooks, and MCP servers is my primary working mode — with evaluation gates so AI speed doesn\u2019t outrun quality.',
+    icon: 'ai',
+  },
+  {
+    title: 'Raise the floor',
+    detail:
+      'Mentored 10+ engineers and established code review, CI/CD, and automated-testing standards. A team that ships safely is faster than any hero.',
+    icon: 'rocket',
+  },
+];
+
+/** Open source & community presence. */
+export type OpenSourceItem = {
+  title: string;
+  detail: string;
+  url?: string;
+  urlLabel?: string;
+  badge?: string;
+  icon: string;
+};
+
+export const openSource: OpenSourceItem[] = [
+  {
+    title: 'IPE — Pusher-server alternative in Go',
+    detail:
+      'Author of IPE, an open-source, self-hostable Pusher-server alternative written in Go for realtime WebSockets at scale.',
+    url: 'https://github.com/mahavirvataliya',
+    urlLabel: 'GitHub',
+    badge: 'Author',
+    icon: 'code',
+  },
+  {
+    title: 'React Native WebView',
+    detail:
+      'Merged contribution to the react-native-webview library used across the React Native ecosystem.',
+    url: 'https://github.com/react-native-webview/react-native-webview',
+    urlLabel: 'Repository',
+    badge: 'Merged PR',
+    icon: 'github',
+  },
+  {
+    title: 'Stack Overflow & Medium',
+    detail: 'Active answering questions and writing engineering posts.',
+    icon: 'star',
+  },
+  {
+    title: 'Hackathon — organised & won',
+    detail:
+      'Organised a company hackathon and won a prize for an API proxy with pricing and rate limiting.',
+    badge: 'Winner',
+    icon: 'hackathon',
+  },
+];
+
+/** What Mahavir is looking for next — phrased as values so it attracts the right teams. */
+export const lookingFor = {
+  roles: [
+    'Senior / Staff Full-Stack Engineer',
+    'Platform / Infrastructure Engineer',
+    'AI Product Engineer',
+  ],
+  environment: [
+    'Remote-first teams with an async, written culture',
+    'Ownership of products end-to-end, not just tickets',
+    'Teams building developer platforms, edge infrastructure, or open-source products',
+  ],
+};
 
 export type Experience = {
   role: string;
@@ -161,7 +266,7 @@ export const experiences: Experience[] = [
       'Self-hosted Supabase on Aurora Serverless v2 as the company\u2019s Postgres + Auth backbone, cutting cloud spend 60% as part of a build-vs-buy overhaul.',
       'Scaled codebasics.io to 1M+ users at 99%+ uptime via Redis caching, DB indexing, Laravel Octane, Nginx tuning, Multi-AZ RDS, CloudFront — tracing with New Relic & CloudWatch (critical stored procedure 4s → 100ms, DB perf +30%).',
       'Built operational automation with production-grade reliability: cross-provider video auto-sync with retries, failed-sync recovery & monitoring; multi-currency payments with idempotent transactions and webhook reconciliation across Stripe & Authorize.Net.',
-      'Use AI agents as leverage across development (Claude Code with custom skills, hooks, MCP servers); run the org-wide secure deployment platform on Cloudflare Zero Trust + Coolify.',
+      'Run the org-wide secure deployment platform on Cloudflare Zero Trust + Coolify, where employees ship AI-built internal tools safely.',
       'Mentored 10+ engineers; established code review, CI/CD, and automated-testing standards.',
     ],
   },
@@ -183,24 +288,9 @@ export type Achievement = { title: string; detail: string; icon: 'star' | 'code'
 
 export const achievements: Achievement[] = [
   {
-    title: 'React Native WebView contribution',
-    detail: 'Merged open-source contribution to the React Native WebView library.',
-    icon: 'code',
-  },
-  {
-    title: 'IPE — Go Pusher alternative',
-    detail: 'Author of IPE, an open-source Pusher-server alternative written in Go.',
-    icon: 'code',
-  },
-  {
     title: 'Performer of the Quarter (4×) & Performer of the Year',
     detail: 'Awarded at AtliQ for engineering excellence and driving cross-team technical initiatives.',
     icon: 'award',
-  },
-  {
-    title: 'Hackathon win — API Proxy',
-    detail: 'Organised a hackathon and won a prize for building an API proxy with pricing and rate limiting.',
-    icon: 'hackathon',
   },
 ];
 

@@ -1,6 +1,26 @@
 import { defineCollection, z } from 'astro:content';
 
 /**
+ * Blog collection.
+ * Each Markdown file in `src/content/blog/*.md` becomes a post at `/blog/<slug>`.
+ */
+const blog = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    /** One-two sentence summary for cards, meta description, RSS. */
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    /** Link a project slug to surface a related-case-study CTA. */
+    relatedProject: z.string().optional(),
+    heroImage: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+/**
  * Projects collection.
  * Each Markdown file in `src/content/projects/*.md` becomes a detail page
  * at `/projects/<slug>`.
@@ -49,4 +69,4 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+export const collections = { projects, blog };

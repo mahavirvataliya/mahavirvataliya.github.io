@@ -4,11 +4,14 @@ A fast, content-rich personal portfolio built with **Astro**, deployed to **Clou
 
 - ⚡ **Static** — zero JS by default, ~100% edge cache hit rate
 - 🎨 **Dark, modern dev** aesthetic (indigo → cyan gradient)
-- 📝 **Content Collections** — each project is a Markdown file → auto detail page
-- 🚀 **6 detailed project case studies** from the résumé
+- 📝 **Content Collections** — projects *and* blog posts are Markdown files → auto detail pages
+- 🚀 **8 detailed project case studies** from the résumé
+- ✍️ **Blog** — engineering writing that demonstrates depth and communication (what remote-first companies screen for)
+- 🧭 **"How I work"** — operating principles for async/remote culture fit
+- 🔓 **Open source section** — contributions and community presence
 - 📄 **Résumé downloads** (both PDFs served from the edge)
 - 📧 **Contact form** via Web3Forms (no backend needed)
-- 🔍 **SEO** — per-page meta, OpenGraph, sitemap, RSS, structured data
+- 🔍 **SEO** — per-page meta, OpenGraph, sitemap, RSS, Person + BlogPosting structured data
 - ♿ **Accessible** — semantic HTML, focus states, reduced-motion support
 
 ## Tech stack
@@ -46,7 +49,8 @@ public/                       static assets served as-is
 src/
 ├── components/               Astro components (Hero, ProjectCard, etc.)
 ├── content/
-│   ├── config.ts             projects collection schema
+│   ├── config.ts             projects + blog collection schemas
+│   ├── blog/                 ← one Markdown file per post
 │   └── projects/             ← one Markdown file per project case study
 ├── data/site.ts              single source of truth (bio, skills, experience)
 ├── layouts/BaseLayout.astro
@@ -55,10 +59,13 @@ src/
 │   ├── projects/
 │   │   ├── index.astro       all projects grid
 │   │   └── [slug].astro      detail page (generated per project)
+│   ├── blog/
+│   │   ├── index.astro       all posts
+│   │   └── [slug].astro      post page (generated per post)
 │   ├── resume.astro
 │   ├── contact.astro
 │   ├── 404.astro
-│   └── rss.xml.ts            projects RSS feed
+│   └── rss.xml.ts            blog RSS feed
 └── styles/global.css
 ```
 
@@ -72,9 +79,19 @@ Each project lives in `src/content/projects/<slug>.md`. The frontmatter schema i
 2. Fill in the frontmatter (`title`, `tagline`, `stack`, `highlights`, etc.) — the schema will guide you and the build will validate it.
 3. The detail page `/projects/my-project` is generated automatically and appears on the projects index. Set `featured: true` to show it on the homepage too.
 
+### Write a blog post
+
+Each post lives in `src/content/blog/<slug>.md`:
+
+1. Create `src/content/blog/my-post.md` with `title`, `description`, `pubDate`, and `tags`.
+2. Optionally set `relatedProject: <project-slug>` to surface a case-study CTA at the end of the post.
+3. The post appears on `/blog`, the homepage's *Writing* section (latest 3), and the RSS feed. Set `draft: true` to hide a post while it's in progress.
+
+> **Note:** the seed posts shipped with this site are drafts written from the résumé — review and personalize them (add real numbers, war stories, links) before treating them as final.
+
 ### Update personal info
 
-Edit `src/data/site.ts` — name, headline, summary, skills, experience, and achievements all live there and flow to every page.
+Edit `src/data/site.ts` — name, headline, summary, skills, experience, ways of working, open-source items, and what-you're-looking-for all live there and flow to every page.
 
 ### Update the résumé
 

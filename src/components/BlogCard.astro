@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+export interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+
+const dateStr = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+// Rough reading time from body word count.
+const words = post.body?.trim().split(/\s+/).length ?? 0;
+const minutes = Math.max(1, Math.round(words / 200));
+---
+
+<a href={`/blog/${post.slug}`} class="group card card-hover flex flex-col p-6" data-reveal>
+  <div class="mb-3 flex flex-wrap items-center gap-2 font-mono text-xs text-slate-500">
+    <time datetime={pubDate.toISOString()}>{dateStr}</time>
+    <span>·</span>
+    <span>{minutes} min read</span>
+  </div>
+
+  <h3 class="text-lg font-bold leading-snug text-white transition group-hover:text-brand-300">
+    {title}
+  </h3>
+  <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{description}</p>
+
+  <div class="mt-4 flex flex-wrap items-center gap-1.5">
+    {tags.map((t) => <span class="pill text-[10px]">{t}</span>)}
+  </div>
+
+  <div class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-400">
+    Read post
+    <Icon name="arrowRight" class="h-4 w-4 transition group-hover:translate-x-1" />
+  </div>
+</a>

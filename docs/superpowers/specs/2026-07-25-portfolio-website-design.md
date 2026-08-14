@@ -207,3 +207,25 @@ npx wrangler pages deploy dist --project-name mahavir-portfolio
 - Résumé PDFs downloadable.
 - Contact form posts successfully.
 - Cloudflare caching headers correct; Lighthouse performance ≥ 95.
+
+---
+
+## V2 Addendum (2026-08-14) — Job-search positioning upgrade
+
+**Goal:** position the portfolio to win senior remote roles at engineering-led companies (edge/platform infrastructure, transparent all-remote cultures, open-source product companies — e.g. Cloudflare, GitLab, Automattic) and high-paying remote companies generally.
+
+**What those employers screen for → what we added:**
+
+| Signal employers want | Addition |
+|---|---|
+| Writing quality (writing cultures) | **Blog** (`/blog`): 6 seed posts from real résumé experience — evaluation gates for LLMs, self-hosting Supabase, 4s→100ms trace story, Cloudflare Zero Trust platform, async-first remote, headless WordPress replatform. BlogPosting JSON-LD, reading time, related-case-study CTAs, RSS. |
+| Platform/edge depth (Cloudflare) | **New featured project**: Org-wide Secure Deployment Platform (Cloudflare Zero Trust + Coolify). Skills list now includes Cloudflare (Pages/CDN/Zero Trust/Stream) + Coolify. |
+| AI engineering depth | **New project**: Multi-Agent Orchestration Platforms (Paperclip, Hermes, OpenClaw) with governance + audit trails. |
+| Remote/async readiness | Hero credentials line (remote-first 6+ yrs, UTC+5:30, global overlap); **"How I work"** section (6 operating principles); async-first blog post. |
+| Open source contribution | **Open source & community section**: IPE (Go), React Native WebView merged PR, Stack Overflow/Medium (URLs TODO), hackathon win, awards strip. |
+| Culture fit / handbook-style values | How-I-work principles mirror transparent-company values (written-first decisions, ownership, raising the floor via mentoring). |
+| Recruiter SEO | Person schema with `knowsAbout[]`; BlogPosting schema; blog + projects in sitemap; recruiter-oriented meta descriptions. |
+| Performance ethos | Footer colophon: "~2 KB JS, edge-cached" — the site itself is the demo. |
+| Role targeting | Contact page **"What I'm looking for"**: roles + environment phrased by values (developer platforms, edge infra, open-source products) rather than naming employers. |
+
+**Honesty guardrails:** no invented testimonials, metrics, or links. Stack Overflow / Medium profile URLs are left as documented TODOs in `src/data/site.ts` until real handles are provided. Seed blog posts are flagged in the README as drafts to personalize before publishing.

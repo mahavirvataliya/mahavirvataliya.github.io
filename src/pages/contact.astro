@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import { site, socials } from '../data/site';
+import { site, socials, lookingFor } from '../data/site';
 
 // Web3Forms key is public by design (browser POSTs to their API).
 // Set PUBLIC_WEB3FORMS_ACCESS_KEY in your env; falls back to a placeholder
@@ -166,6 +166,27 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? 'YOUR_ACCESS_KE
           <p class="mt-2 text-sm leading-relaxed text-slate-400">
             Based in {site.location}. I usually reply within one business day.
           </p>
+        </div>
+
+        <div class="card p-7">
+          <h3 class="font-mono text-xs uppercase tracking-widest text-slate-500">What I'm looking for</h3>
+          <ul class="mt-3 space-y-2">
+            {lookingFor.roles.map((r) => (
+              <li class="flex gap-2 text-sm text-slate-300">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-brand" />
+                {r}
+              </li>
+            ))}
+          </ul>
+          <div class="hr-soft my-4"></div>
+          <ul class="space-y-2">
+            {lookingFor.environment.map((e) => (
+              <li class="flex gap-2 text-sm text-slate-400">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500/60" />
+                {e}
+              </li>
+            ))}
+          </ul>
         </div>
       </aside>
     </div>

@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import Icon from '../../components/Icon.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout
+  title="Blog"
+  description="Engineering notes by Mahavir Vataliya — production AI, performance, infrastructure, and remote-first teamwork. Written from real systems, not tutorials."
+  path="/blog"
+>
+  <section class="container-x pt-16 sm:pt-20">
+    <a
+      href="/"
+      class="inline-flex items-center gap-1.5 text-sm text-slate-400 transition hover:text-white"
+    >
+      <Icon name="arrowRight" class="h-4 w-4 rotate-180" />
+      Back home
+    </a>
+
+    <h1 class="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">Writing</h1>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-slate-400">
+      Notes from real systems — production AI, performance work, infrastructure decisions, and
+      remote-first collaboration. No tutorials; just what the traces showed.
+    </p>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => <BlogCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>

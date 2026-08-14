@@ -1,0 +1,174 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, relatedProject } = post.data;
+const { Content } = await post.render();
+
+const dateStr = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const updatedStr = updatedDate?.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const words = post.body?.trim().split(/\s+/).length ?? 0;
+const minutes = Math.max(1, Math.round(words / 200));
+
+// Sorted newest-first: "prev" is the newer post, "next" is the older one.
+const all = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const idx = all.findIndex((p) => p.slug === post.slug);
+const newer = idx > 0 ? all[idx - 1] : null;
+const older = idx < all.length - 1 ? all[idx + 1] : null;
+
+// Related project case study, if linked.
+const project = relatedProject
+  ? (await getCollection('projects')).find((p) => p.slug === relatedProject)
+  : undefined;
+
+const origin = Astro.site?.origin ?? 'https://mahavir-portfolio.pages.dev';
+const canonical = new URL(Astro.url.pathname, origin).href;
+---
+
+<BaseLayout title={title} description={description} path={Astro.url.pathname}>
+  <article class="container-x pt-16 sm:pt-20">
+    <!-- Back link -->
+    <a
+      href="/blog"
+      class="inline-flex items-center gap-1.5 text-sm text-slate-400 transition hover:text-white"
+    >
+      <Icon name="arrowRight" class="h-4 w-4 rotate-180" />
+      All posts
+    </a>
+
+    <!-- Header -->
+    <header class="mx-auto mt-8 max-w-3xl">
+      <div class="flex flex-wrap items-center gap-2 font-mono text-xs text-slate-500">
+        <time datetime={pubDate.toISOString()}>{dateStr}</time>
+        <span>·</span>
+        <span>{minutes} min read</span>
+        {updatedDate && (
+          <span class="text-slate-600">(updated {updatedStr})</span>
+        )}
+      </div>
+      <h1 class="mt-4 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl">
+        {title}
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-slate-400">{description}</p>
+      <div class="mt-6 flex flex-wrap items-center gap-2">
+        <span class="flex items-center gap-2 text-sm text-slate-300">
+          <span
+            class="grid h-8 w-8 place-items-center rounded-full bg-gradient-brand text-xs font-bold text-white"
+          >
+            MV
+          </span>
+          {site.name}
+        </span>
+        <span class="text-slate-600">·</span>
+        <a href={`https://github.com/mahavirvataliya`} target="_blank" rel="noopener noreferrer" class="text-sm text-slate-400 hover:text-white">
+          @mahavirvataliya
+        </a>
+      </div>
+      <div class="mt-5 flex flex-wrap gap-1.5">
+        {tags.map((t) => <span class="pill">{t}</span>)}
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div class="prose prose-invert mx-auto mt-12 max-w-3xl">
+      <Content />
+    </div>
+
+    <!-- Related project case study -->
+    {
+      project && (
+        <div class="mx-auto mt-12 max-w-3xl">
+          <a
+            href={`/projects/${project.slug}`}
+            class="card card-hover flex flex-col gap-3 p-6 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div>
+              <p class="font-mono text-xs uppercase tracking-widest text-slate-500">
+                Case study
+              </p>
+              <p class="mt-1 font-semibold text-white">{project.data.title}</p>
+              <p class="mt-1 text-sm text-slate-400">{project.data.tagline}</p>
+            </div>
+            <span class="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-accent-400">
+              Read case study
+              <Icon name="arrowRight" class="h-4 w-4" />
+            </span>
+          </a>
+        </div>
+      )
+    }
+
+    <!-- Prev / next -->
+    <nav class="mx-auto mt-16 max-w-3xl">
+      <div class="hr-soft mb-8"></div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {
+          newer ? (
+            <a href={`/blog/${newer.slug}`} class="card card-hover p-5">
+              <span class="font-mono text-xs uppercase tracking-widest text-slate-500">← Newer</span>
+              <p class="mt-1 font-semibold text-white">{newer.data.title}</p>
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          older && (
+            <a href={`/blog/${older.slug}`} class="card card-hover p-5 text-right">
+              <span class="font-mono text-xs uppercase tracking-widest text-slate-500">Older →</span>
+              <p class="mt-1 font-semibold text-white">{older.data.title}</p>
+            </a>
+          )
+        }
+      </div>
+    </nav>
+  </article>
+
+  <!-- Structured data: BlogPosting -->
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: title,
+      description,
+      datePublished: pubDate.toISOString(),
+      ...(updatedDate ? { dateModified: updatedDate.toISOString() } : {}),
+      keywords: tags.join(', '),
+      author: {
+        '@type': 'Person',
+        name: site.name,
+        url: origin,
+      },
+      mainEntityOfPage: canonical,
+    })}
+  />
+</BaseLayout>
