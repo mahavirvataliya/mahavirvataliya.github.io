@@ -1,10 +1,15 @@
 ---
+import { existsSync } from 'node:fs';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { site } from '../data/site';
 
-const resumes = [
+// Résumé PDFs are gitignored for privacy and only exist in the local
+// public/ folder — so a CI build (GitHub Actions) won't have them.
+// Detect at build time: if present, offer downloads; if not, offer
+// email delivery instead of shipping dead links.
+const resumeFiles = [
   {
     title: 'Full-Stack & AI Product Engineer',
     detail:
@@ -24,6 +29,9 @@ const resumes = [
     primary: false,
   },
 ];
+
+const resumes = resumeFiles.filter((r) => existsSync(`public${r.file}`));
+const pdfsAvailable = resumes.length > 0;
 ---
 
 <BaseLayout
@@ -34,11 +42,38 @@ const resumes = [
   <section class="container-x pt-16 sm:pt-20">
     <SectionHeading
       eyebrow="Resume"
-      title="Download my résumé."
-      description="A one-page summary of my experience, skills, and shipped work. Pick the version that fits — the Full-Stack & AI Product Engineer version is the current one."
+      title={pdfsAvailable ? 'Download my résumé.' : 'Request my résumé.'}
+      description={
+        pdfsAvailable
+          ? 'A one-page summary of my experience, skills, and shipped work. Pick the version that fits — the Full-Stack & AI Product Engineer version is the current one.'
+          : 'I keep my résumé off public repositories for privacy. Email me and I\u2019ll send the current PDF (Full-Stack & AI Product Engineer) straight over — usually within a day.'
+      }
     />
 
-    <div class="mt-12 grid gap-6 sm:grid-cols-2">
+    {
+      !pdfsAvailable && (
+        <div class="card mt-12 flex flex-col gap-4 p-7 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex items-start gap-4">
+            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-brand text-white shadow-lg shadow-brand-900/40">
+              <Icon name="email" class="h-6 w-6" />
+            </span>
+            <div>
+              <h3 class="font-semibold text-white">Résumé available on request</h3>
+              <p class="mt-1 text-sm leading-relaxed text-slate-400">
+                Full-Stack & AI Product Engineer — 8+ years, shipped agentic AI products, 1M+ users scaled.
+                Just ask and I\u2019ll email the PDF.
+              </p>
+            </div>
+          </div>
+          <a href={`mailto:${site.email}?subject=R%C3%A9sum%C3%A9%20request`} class="btn-primary shrink-0">
+            <Icon name="email" class="h-4 w-4" />
+            Email me
+          </a>
+        </div>
+      )
+    }
+
+    <div class:list={['mt-12 grid gap-6 sm:grid-cols-2', !pdfsAvailable && 'hidden']}>
       {
         resumes.map((r) => (
           <div class:list={['card card-hover p-7', r.primary && 'ring-1 ring-brand-500/40']}>
