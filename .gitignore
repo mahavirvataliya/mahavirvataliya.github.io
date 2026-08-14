@@ -19,6 +19,9 @@ pnpm-debug.log*
 .env.production
 .env.local
 
+# Résumés — kept local, never committed (privacy)
+*.pdf
+
 # macOS
 .DS_Store
 
