@@ -6,7 +6,7 @@
 export const site = {
   name: 'Mahavir Vataliya',
   role: 'Software engineer — AI, full-stack & solutions architecture',
-  location: 'Vadodara, India',
+  location: 'Jamnagar, India',
   email: 'mahavir.vataliya110@gmail.com',
   phone: '+91 81402 57443',
   intro: [
