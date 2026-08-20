@@ -1,55 +1,122 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Skills from '../components/Skills.astro';
-import FeaturedProjects from '../components/FeaturedProjects.astro';
-import LatestPosts from '../components/LatestPosts.astro';
-import ExperienceTimeline from '../components/ExperienceTimeline.astro';
-import HowIWork from '../components/HowIWork.astro';
-import OpenSource from '../components/OpenSource.astro';
-import ContactCTA from '../components/ContactCTA.astro';
-import { site } from '../data/site';
+import { site, experiences, openSource } from '../data/site';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 5);
 ---
 
-<BaseLayout description={site.summary}>
-  <Hero />
-  <div class="hr-soft"></div>
-  <About />
-  <div class="hr-soft"></div>
-  <Skills />
-  <div class="hr-soft"></div>
-  <FeaturedProjects />
-  <div class="hr-soft"></div>
-  <ExperienceTimeline />
-  <div class="hr-soft"></div>
-  <HowIWork />
-  <div class="hr-soft"></div>
-  <LatestPosts />
-  <div class="hr-soft"></div>
-  <OpenSource />
-  <div class="hr-soft"></div>
-  <ContactCTA />
+<BaseLayout description="Mahavir Vataliya — full-stack engineer. Web platforms and AI products, 8 years in production, remote with US/EU teams.">
+  <!-- Intro -->
+  <section class="pt-14">
+    <h1 class="text-3xl font-bold tracking-tight text-neutral-900">{site.name}</h1>
+    <p class="meta mt-1">{site.role} · {site.location} · open to remote roles</p>
 
-  <!-- Scroll-reveal: tiny IntersectionObserver, no framework cost. -->
-  <script>
-    const els = document.querySelectorAll('[data-reveal]');
-    if ('IntersectionObserver' in window && els.length) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              (entry.target as HTMLElement).classList.add('animate-fade-up');
-              io.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-      );
-      els.forEach((el) => io.observe(el));
-    } else {
-      // No observer support — just show everything.
-      els.forEach((el) => el.classList.add('animate-fade-up'));
-    }
-  </script>
+    <div class="mt-6 space-y-4 leading-relaxed">
+      {site.intro.map((p) => <p>{p}</p>)}
+    </div>
+
+    <p class="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+      <a href="https://github.com/mahavirvataliya" class="text-neutral-900 underline underline-offset-2" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      <a href="https://linkedin.com/in/mahavirvataliya" class="text-neutral-900 underline underline-offset-2" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+      <a href={`mailto:${site.email}`} class="text-neutral-900 underline underline-offset-2">Email</a>
+      <a href="/resume" class="text-neutral-900 underline underline-offset-2">Résumé</a>
+    </p>
+  </section>
+
+  <!-- Work -->
+  <section id="work" class="mt-16">
+    <h2 class="h-section">Work</h2>
+    <div class="mt-2">
+      {
+        projects.map((p) => (
+          <a href={`/projects/${p.slug}`} class="row group no-underline">
+            <div class="flex items-baseline justify-between gap-4">
+              <span class="row-title font-semibold text-neutral-900">{p.data.title}</span>
+              <span class="meta shrink-0">{p.data.period}</span>
+            </div>
+            <p class="mt-1 text-neutral-600">{p.data.tagline}</p>
+            <p class="meta mt-1">{p.data.stack.slice(0, 5).join(' · ')}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="mt-16">
+    <h2 class="h-section">Experience</h2>
+    <div class="mt-2">
+      {
+        experiences.map((exp) => (
+          <div class="border-t border-neutral-200 py-6">
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <h3 class="font-semibold text-neutral-900">
+                {exp.role} · {exp.company}
+              </h3>
+              <span class="meta">{exp.period}</span>
+            </div>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-neutral-600 marker:text-neutral-300">
+              {exp.highlights.map((h) => <li class="leading-relaxed">{h}</li>)}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Writing -->
+  <section id="writing" class="mt-16">
+    <h2 class="h-section">Writing</h2>
+    <div class="mt-2">
+      {
+        posts.map((post) => (
+          <a href={`/blog/${post.slug}`} class="row group no-underline">
+            <div class="flex items-baseline justify-between gap-4">
+              <span class="row-title text-neutral-900">{post.data.title}</span>
+              <time class="meta shrink-0" datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </time>
+            </div>
+          </a>
+        ))
+      }
+      <p class="border-t border-neutral-200 pt-4 text-sm">
+        <a href="/blog" class="text-neutral-600 underline underline-offset-2 hover:text-neutral-900">All posts →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Open source -->
+  <section class="mt-16">
+    <h2 class="h-section">Open source</h2>
+    <ul class="mt-2 list-disc space-y-2 border-t border-neutral-200 py-5 pl-5 text-neutral-600 marker:text-neutral-300">
+      {
+        openSource.map((item) => (
+          <li>
+            {item.url ? (
+              <a href={item.url} class="underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+                {item.text}
+              </a>
+            ) : (
+              item.text
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Contact -->
+  <section class="mt-16">
+    <h2 class="h-section">Contact</h2>
+    <p class="mt-3 leading-relaxed">
+      The fastest way to reach me is email:
+      <a href={`mailto:${site.email}`} class="text-neutral-900 underline underline-offset-2">{site.email}</a>.
+      I usually reply within a day. There's also a <a href="/contact" class="text-neutral-900 underline underline-offset-2">contact form</a>.
+    </p>
+  </section>
 </BaseLayout>

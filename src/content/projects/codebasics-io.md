@@ -1,6 +1,6 @@
 ---
 title: Codebasics.io
-tagline: High-traffic B2B/B2C learning platform serving 1M+ users at 99%+ uptime — payments, video pipeline, and full production observability.
+tagline: A learning platform used by 1M+ people. I owned performance, payments, and video delivery end-to-end.
 category: Web
 period: 2020 – Present
 role: Full-stack owner — performance, payments, video pipeline, observability

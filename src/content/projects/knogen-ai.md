@@ -1,6 +1,6 @@
 ---
 title: Knogen.ai
-tagline: Production enterprise agentic RAG platform — document automation, grounded citations, governance, and cost-aware model routing.
+tagline: An enterprise RAG platform — ask questions across your company documents, get answers with citations and permissions enforced.
 category: AI
 period: 2024 – Present
 role: Chief Architect — end-to-end ownership from customer requirements to production

@@ -10,31 +10,24 @@ export interface Props {
   image?: string;
   path?: string;
   noindex?: boolean;
-  /** Hide the site header/footer (not used for v1, but available). */
-  bare?: boolean;
 }
 
-const { title, description, image, path, noindex, bare = false } = Astro.props;
+const { title, description, image, path, noindex } = Astro.props;
 const origin = Astro.site?.origin ?? 'https://mahavirvataliya.github.io';
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#07080d" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="alternate" type="application/rss+xml" title="Projects" href="/rss.xml" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-    />
+    <link rel="alternate" type="application/rss+xml" title="Writing" href="/rss.xml" />
     <SEO title={title} description={description} image={image} path={path} noindex={noindex} />
 
-    <!-- Structured data: person -->
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
@@ -42,10 +35,7 @@ const origin = Astro.site?.origin ?? 'https://mahavirvataliya.github.io';
         '@type': 'Person',
         name: 'Mahavir Vataliya',
         jobTitle: 'Full-Stack Engineer',
-        description:
-          'Full-stack engineer with 8+ years of production experience across React, NextJS, Supabase, Python, and agentic AI products. Remote-first, 6+ years with US/EU clients.',
         email: 'mailto:mahavir.vataliya110@gmail.com',
-        telephone: '+91-8140257443',
         address: { '@type': 'PostalAddress', addressLocality: 'Vadodara', addressCountry: 'IN' },
         url: origin,
         sameAs: [
@@ -53,26 +43,9 @@ const origin = Astro.site?.origin ?? 'https://mahavirvataliya.github.io';
           'https://linkedin.com/in/mahavirvataliya',
         ],
         knowsAbout: [
-          'React',
-          'NextJS',
-          'TypeScript',
-          'Supabase',
-          'PostgreSQL',
-          'Python',
-          'FastAPI',
-          'LangChain',
-          'Retrieval-Augmented Generation',
-          'Multi-Agent Systems',
-          'Node.js',
-          'Laravel',
-          'AWS',
-          'Cloudflare',
-          'Terraform',
-          'Docker',
-          'CI/CD',
-          'Redis',
-          'Platform Engineering',
-          'Production Observability',
+          'React', 'NextJS', 'TypeScript', 'Supabase', 'PostgreSQL', 'Python', 'FastAPI',
+          'LangChain', 'Retrieval-Augmented Generation', 'Node.js', 'Laravel', 'AWS',
+          'Cloudflare', 'Terraform', 'Docker', 'CI/CD', 'Redis', 'Production Observability',
         ],
       })}
     />
@@ -80,13 +53,13 @@ const origin = Astro.site?.origin ?? 'https://mahavirvataliya.github.io';
   <body>
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:text-neutral-900 focus:shadow"
       >Skip to content</a
     >
-    {!bare && <Header />}
-    <main id="main">
+    <Header />
+    <main id="main" class="wrap">
       <slot />
     </main>
-    {!bare && <Footer />}
+    <Footer />
   </body>
 </html>

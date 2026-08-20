@@ -1,8 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import BlogCard from '../../components/BlogCard.astro';
-import Icon from '../../components/Icon.astro';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -10,27 +8,30 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 ---
 
 <BaseLayout
-  title="Blog"
-  description="Engineering notes by Mahavir Vataliya — production AI, performance, infrastructure, and remote-first teamwork. Written from real systems, not tutorials."
+  title="Writing"
+  description="Notes by Mahavir Vataliya from real systems — production AI, performance, infrastructure, remote work."
   path="/blog"
 >
-  <section class="container-x pt-16 sm:pt-20">
-    <a
-      href="/"
-      class="inline-flex items-center gap-1.5 text-sm text-slate-400 transition hover:text-white"
-    >
-      <Icon name="arrowRight" class="h-4 w-4 rotate-180" />
-      Back home
-    </a>
-
-    <h1 class="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">Writing</h1>
-    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-slate-400">
-      Notes from real systems — production AI, performance work, infrastructure decisions, and
-      remote-first collaboration. No tutorials; just what the traces showed.
+  <section class="pt-14">
+    <h1 class="text-3xl font-bold tracking-tight text-neutral-900">Writing</h1>
+    <p class="mt-3 leading-relaxed text-neutral-600">
+      Notes from things I've shipped. No tutorials.
     </p>
 
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post) => <BlogCard post={post} />)}
+    <div class="mt-8">
+      {
+        posts.map((post) => (
+          <a href={`/blog/${post.slug}`} class="row group no-underline">
+            <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+              <span class="row-title text-neutral-900">{post.data.title}</span>
+              <time class="meta shrink-0" datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </time>
+            </div>
+            <p class="mt-1 text-neutral-600">{post.data.description}</p>
+          </a>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

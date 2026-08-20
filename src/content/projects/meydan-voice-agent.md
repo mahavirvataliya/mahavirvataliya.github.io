@@ -1,6 +1,6 @@
 ---
 title: Meydan Free Zone — AI Voice Agent
-tagline: Production AI voice agent for a UAE business-setup consultancy — outbound qualification calls with sub-800ms latency, barge-in, and CRM logging.
+tagline: An AI phone agent that calls leads, qualifies them in conversation, and logs the results to a CRM. Sub-800ms latency, on real UAE phone lines.
 category: AI
 period: 2024 – 2025
 role: Architect & builder — telephony, voice AI, and CRM integration

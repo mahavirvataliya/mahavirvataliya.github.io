@@ -1,6 +1,6 @@
 ---
 title: Cloint — B2B SaaS CRM
-tagline: Operations-heavy multi-role CRM with Twilio VoIP calling, event-driven data imports, and a 12-factor distributed architecture.
+tagline: A multi-role B2B CRM with built-in phone calling and event-driven data imports.
 category: Web
 period: 2018 – 2020
 role: Software Engineer — full-stack build, including mobile + backend

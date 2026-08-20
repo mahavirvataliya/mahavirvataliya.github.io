@@ -1,6 +1,6 @@
 ---
 title: Multi-Agent Orchestration Platforms
-tagline: Paperclip, Hermes, OpenClaw — LLM agent platforms with governance, audit trails, and evaluation gates so autonomous automation earns trust before it earns scope.
+tagline: Three LLM-automation platforms (Paperclip, Hermes, OpenClaw) that run email, document, and ops workflows with an audit trail.
 category: AI
 period: 2023 – Present
 role: Architect — orchestration design, governance, and production evaluation

@@ -1,7 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Icon from '../../components/Icon.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -16,175 +15,100 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, tagline, category, period, role, client, stack, highlights, metrics, gallery, links, accent, description } =
-  project.data;
+const { title, tagline, period, role, client, stack, highlights, metrics, gallery, links } = project.data;
 const { Content } = await project.render();
 
-const accentMap: Record<string, string> = {
-  indigo: 'text-brand-300',
-  cyan: 'text-accent-400',
-  emerald: 'text-emerald-300',
-  amber: 'text-amber-300',
-  rose: 'text-rose-300',
-  violet: 'text-violet-300',
-};
-const accentText = accentMap[accent] ?? accentMap.indigo;
-
-// Sibling projects for prev/next nav.
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const idx = all.findIndex((p) => p.slug === project.slug);
 const prev = idx > 0 ? all[idx - 1] : null;
 const next = idx < all.length - 1 ? all[idx + 1] : null;
 ---
 
-<BaseLayout
-  title={title}
-  description={description ?? tagline}
-  path={Astro.url.pathname}
->
-  <!-- Back link -->
-  <div class="container-x pt-8">
-    <a
-      href="/projects"
-      class="inline-flex items-center gap-1.5 text-sm text-slate-400 transition hover:text-white"
-    >
-      <Icon name="arrowRight" class="h-4 w-4 rotate-180" />
-      All projects
-    </a>
-  </div>
+<BaseLayout title={title} description={tagline} path={Astro.url.pathname}>
+  <article class="pt-10">
+    <p class="text-sm">
+      <a href="/projects" class="text-neutral-500 underline underline-offset-2 hover:text-neutral-900">← All work</a>
+    </p>
 
-  <!-- Hero -->
-  <section class="container-x pt-10">
-    <div class="flex flex-wrap items-center gap-3">
-      <span class={`pill border-transparent bg-white/10 ${accentText}`}>{category}</span>
-      <span class="font-mono text-xs text-slate-500">{period}</span>
-      {client && <span class="font-mono text-xs text-slate-500">· {client}</span>}
-    </div>
-    <h1 class="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">{title}</h1>
-    <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-300">{tagline}</p>
+    <header class="mt-6">
+      <h1 class="text-3xl font-bold tracking-tight text-neutral-900">{title}</h1>
+      <p class="meta mt-2">
+        {period}{client ? ` · ${client}` : ''} · {role}
+      </p>
+      {
+        (links?.live || links?.repo) && (
+          <p class="mt-3 flex flex-wrap gap-x-5 text-sm">
+            {links?.live && (
+              <a href={links.live} class="text-neutral-900 underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+                View live ↗
+              </a>
+            )}
+            {links?.repo && (
+              <a href={links.repo} class="text-neutral-900 underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+                Source ↗
+              </a>
+            )}
+          </p>
+        )
+      }
+    </header>
 
-    <!-- CTA buttons -->
     {
-      (links?.live || links?.repo || links?.caseStudy) && (
-        <div class="mt-6 flex flex-wrap gap-3">
-          {links?.live && (
-            <a href={links.live} target="_blank" rel="noopener noreferrer" class="btn-primary">
-              <Icon name="external" class="h-4 w-4" />
-              View live
-            </a>
-          )}
-          {links?.repo && (
-            <a href={links.repo} target="_blank" rel="noopener noreferrer" class="btn-ghost">
-              <Icon name="github" class="h-4 w-4" />
-              Source code
-            </a>
-          )}
-          {links?.caseStudy && (
-            <a href={links.caseStudy} target="_blank" rel="noopener noreferrer" class="btn-ghost">
-              <Icon name="external" class="h-4 w-4" />
-              Case study
-            </a>
-          )}
+      metrics.length > 0 && (
+        <dl class="mt-6 grid grid-cols-2 gap-x-8 gap-y-3 border-y border-neutral-200 py-4 sm:grid-cols-4">
+          {metrics.map((m) => (
+            <div>
+              <dt class="meta">{m.label}</dt>
+              <dd class="font-semibold text-neutral-900">{m.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+
+    <div class="prose prose-neutral mt-8 max-w-none prose-a:text-neutral-900">
+      <h2>Highlights</h2>
+      <ul>
+        {highlights.map((h) => <li>{h}</li>)}
+      </ul>
+      <Content />
+    </div>
+
+    {
+      gallery.length > 0 && (
+        <div class="mt-10">
+          <h2 class="h-section">Gallery</h2>
+          <div class="mt-3 grid gap-4 sm:grid-cols-2">
+            {gallery.map((src) => (
+              <img src={src} alt={`${title} screenshot`} loading="lazy" class="w-full rounded-md border border-neutral-200" />
+            ))}
+          </div>
         </div>
       )
     }
-  </section>
 
-  <!-- Metrics row -->
-  {
-    metrics.length > 0 && (
-      <section class="container-x mt-12">
-        <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {metrics.map((m) => (
-            <div class="card p-5 text-center">
-              <div class={`text-2xl font-bold ${accentText}`}>{m.value}</div>
-              <div class="mt-1 font-mono text-xs uppercase tracking-wider text-slate-500">{m.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-    )
-  }
+    <aside class="mt-10 border-t border-neutral-200 pt-5">
+      <h2 class="h-section">Stack</h2>
+      <p class="mt-2 leading-relaxed text-neutral-600">{stack.join(' · ')}</p>
+    </aside>
 
-  <!-- Two-column: meta sidebar + body -->
-  <section class="container-x mt-12">
-    <div class="grid gap-10 lg:grid-cols-[1fr_280px]">
-      <!-- Body -->
-      <article class="prose prose-invert max-w-none">
-        <!-- Key highlights, surfaced before the long-form body. -->
-        <h2 id="highlights">Key outcomes</h2>
-        <ul>
-          {highlights.map((h) => <li>{h}</li>)}
-        </ul>
-
-        <!-- Markdown body authored per-project. -->
-        <Content />
-      </article>
-
-      <!-- Sidebar -->
-      <aside class="space-y-8 lg:sticky lg:top-24 lg:self-start">
-        <div>
-          <h2 class="font-mono text-xs uppercase tracking-widest text-slate-500">My role</h2>
-          <p class="mt-2 text-sm text-slate-300">{role}</p>
-        </div>
-
-        <div>
-          <h2 class="font-mono text-xs uppercase tracking-widest text-slate-500">Tech stack</h2>
-          <div class="mt-3 flex flex-wrap gap-1.5">
-            {stack.map((s) => <span class="pill">{s}</span>)}
-          </div>
-        </div>
-
-        {client && (
-          <div>
-            <h2 class="font-mono text-xs uppercase tracking-widest text-slate-500">Client</h2>
-            <p class="mt-2 text-sm text-slate-300">{client}</p>
-          </div>
-        )}
-
-        <div>
-          <h2 class="font-mono text-xs uppercase tracking-widest text-slate-500">Timeline</h2>
-          <p class="mt-2 text-sm text-slate-300">{period}</p>
-        </div>
-      </aside>
-    </div>
-  </section>
-
-  <!-- Gallery -->
-  {
-    gallery.length > 0 && (
-      <section class="container-x mt-16">
-        <h2 class="text-2xl font-bold text-white">Gallery</h2>
-        <div class="mt-6 grid gap-4 sm:grid-cols-2">
-          {gallery.map((src) => (
-            <img
-              src={src}
-              alt={`${title} screenshot`}
-              loading="lazy"
-              class="card w-full rounded-xl object-cover"
-            />
-          ))}
-        </div>
-      </section>
-    )
-  }
-
-  <!-- Prev / next nav -->
-  <section class="container-x mt-20">
-    <div class="hr-soft mb-8"></div>
-    <div class="grid gap-4 sm:grid-cols-2">
-      {prev ? (
-        <a href={`/projects/${prev.slug}`} class="card card-hover group p-5">
-          <span class="font-mono text-xs uppercase tracking-widest text-slate-500">← Previous</span>
-          <p class="mt-1 font-semibold text-white">{prev.data.title}</p>
-        </a>
-      ) : <span></span>}
-      {next && (
-        <a href={`/projects/${next.slug}`} class="card card-hover group p-5 text-right">
-          <span class="font-mono text-xs uppercase tracking-widest text-slate-500">Next →</span>
-          <p class="mt-1 font-semibold text-white">{next.data.title}</p>
-        </a>
-      )}
-    </div>
-  </section>
+    <nav class="mt-10 flex justify-between border-t border-neutral-200 pt-5 text-sm">
+      {
+        prev ? (
+          <a href={`/projects/${prev.slug}`} class="text-neutral-600 underline underline-offset-2 hover:text-neutral-900">
+            ← {prev.data.title}
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        next && (
+          <a href={`/projects/${next.slug}`} class="text-right text-neutral-600 underline underline-offset-2 hover:text-neutral-900">
+            {next.data.title} →
+          </a>
+        )
+      }
+    </nav>
+  </article>
 </BaseLayout>

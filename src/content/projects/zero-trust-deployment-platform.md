@@ -1,6 +1,6 @@
 ---
 title: Org-wide Secure Deployment Platform
-tagline: Cloudflare Zero Trust + Coolify — the paved road that lets an organisation ship AI-built internal tools fast without betting its security posture on hope.
+tagline: The internal platform our teams deploy through — everything behind Cloudflare Zero Trust, shipped via Coolify.
 category: Infra
 period: 2024 – Present
 role: Owner & architect — platform design, access model, and rollout

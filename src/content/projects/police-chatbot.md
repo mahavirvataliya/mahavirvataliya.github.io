@@ -1,6 +1,6 @@
 ---
 title: Police Department AI Chatbot
-tagline: Production LLM product for a major US police department — two retrieval flows (documents + crime data), citations, caching, and feedback logging.
+tagline: A document-and-data Q&A system for a US police department, with citations on every answer.
 category: AI
 period: "2025"
 role: Builder — retrieval design, embedding pipeline, and production safeguards

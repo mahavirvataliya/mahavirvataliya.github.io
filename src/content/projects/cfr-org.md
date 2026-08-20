@@ -1,6 +1,6 @@
 ---
 title: CFR.org
-tagline: Replatformed the Council on Foreign Relations publication to headless WordPress + NextJS — modern performance, preserved editorial workflow.
+tagline: Moved cfr.org off legacy Drupal to headless WordPress + NextJS without changing how their editors work.
 category: Web
 period: "2025"
 role: Lead engineer — replatforming, content migration, custom rendering
