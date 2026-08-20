@@ -5,12 +5,12 @@
 
 export const site = {
   name: 'Mahavir Vataliya',
-  role: 'Full-stack engineer',
+  role: 'Software engineer — AI, full-stack & solutions architecture',
   location: 'Vadodara, India',
   email: 'mahavir.vataliya110@gmail.com',
   phone: '+91 81402 57443',
   intro: [
-    "I'm a full-stack engineer. I build web platforms and AI products, and I've been shipping production software for 8 years — the last 6 of them remote, mostly with US and EU clients.",
+    "I'm a software engineer. I build web platforms and AI products, and I've been shipping production software for 8 years — the last 6 of them remote, mostly with US and EU clients.",
     'I currently work as chief architect at AtliQ Technologies, where I lead products from the first customer conversation through to production: Knogen.ai (enterprise RAG), a learning platform used by 1M+ people, and the tooling our own teams deploy through.',
     'I work mostly in TypeScript/React/NextJS, Python/FastAPI, Postgres/Supabase, and LangChain, and I run things on AWS and Cloudflare.',
   ],

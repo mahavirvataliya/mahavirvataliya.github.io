@@ -12,7 +12,7 @@ export interface Props {
 }
 
 const DEFAULT_DESCRIPTION =
-  "Mahavir Vataliya — full-stack engineer. Web platforms and AI products, 8 years in production, remote with US/EU teams.";
+  "Mahavir Vataliya — software engineer working across AI, full-stack, and solutions architecture. Web platforms and AI products, 8 years in production, remote with US/EU teams.";
 
 const {
   title,
@@ -22,7 +22,7 @@ const {
   noindex = false,
 } = Astro.props;
 
-const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
+const fullTitle = title ? `${title} — ${site.name}` : `${site.name} · ${site.role}`;
 
 const origin = Astro.site?.origin ?? 'https://mahavirvataliya.github.io';
 const canonical = new URL(path, origin).href;
