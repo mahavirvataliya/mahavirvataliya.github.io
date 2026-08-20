@@ -12,8 +12,19 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 <BaseLayout description="Mahavir Vataliya — full-stack engineer. Web platforms and AI products, 8 years in production, remote with US/EU teams.">
   <!-- Intro -->
   <section class="pt-14">
-    <h1 class="text-3xl font-bold tracking-tight text-neutral-900">{site.name}</h1>
-    <p class="meta mt-1">{site.role} · {site.location} · open to remote roles</p>
+    <div class="flex items-center gap-4">
+      <img
+        src="/photo.jpg"
+        alt={`Photo of ${site.name}`}
+        width="72"
+        height="72"
+        class="h-18 w-18 shrink-0 rounded-full object-cover"
+      />
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight text-neutral-900">{site.name}</h1>
+        <p class="meta mt-1">{site.role} · {site.location} · open to remote roles</p>
+      </div>
+    </div>
 
     <div class="mt-6 space-y-4 leading-relaxed">
       {site.intro.map((p) => <p>{p}</p>)}
