@@ -34,8 +34,6 @@ Content migrations fail when they're events ("migration weekend!") instead of pr
 
 The classic replatform trap is the months-long freeze followed by a high-stakes launch. The pipeline-first approach lets you validate real content on the real new stack long before cutover — performance, SEO, rendering edge cases — while the old site keeps serving.
 
-Infrastructure was the boring, reliable part: Terraform for reproducible environments, Azure DevOps for repeatable deploys.
-
 ## What I'd tell anyone attempting this
 
 - **Model your blocks before you model your database.** The block inventory drives everything: rendering components, migration mappings, editor training (ideally zero).

@@ -12,7 +12,7 @@ export const site = {
   intro: [
     "I'm a software engineer. I build web platforms and AI products, and I've been shipping production software for 8 years — the last 6 of them remote, mostly with US and EU clients.",
     'I currently work as chief architect at AtliQ Technologies, where I lead products from the first customer conversation through to production: Knogen.ai (enterprise RAG), a learning platform used by 1M+ people, and the tooling our own teams deploy through.',
-    'I work mostly in TypeScript/React/NextJS, Python/FastAPI, Postgres/Supabase, and LangChain, and I run things on AWS and Cloudflare.',
+    'I work mostly in TypeScript/React/NextJS, Python/FastAPI, Postgres/Supabase, and LangChain, and I\'ve run production workloads across AWS, Azure, Cloudflare, Vultr, DigitalOcean, Hetzner, and Oracle Cloud.',
   ],
 } as const;
 

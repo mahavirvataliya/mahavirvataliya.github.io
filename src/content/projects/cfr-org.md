@@ -2,7 +2,7 @@
 title: CFR.org
 tagline: Moved cfr.org off legacy Drupal to headless WordPress + NextJS without changing how their editors work.
 category: Web
-period: "2025"
+period: "2025 – Present"
 role: Lead engineer — replatforming, content migration, custom rendering
 client: Council on Foreign Relations (CFR.org)
 featured: true
@@ -14,8 +14,6 @@ stack:
   - Headless WordPress
   - Gutenberg
   - Python
-  - Terraform
-  - Azure DevOps
 highlights:
   - "Migrated CFR.org from legacy Drupal to headless WordPress + NextJS"
   - "Custom Gutenberg-mapped rendering blocks for pixel-faithful content"
@@ -25,7 +23,6 @@ metrics:
   - { label: "Stack", value: "Headless CMS" }
   - { label: "Delivery", value: "NextJS SSR/ISR" }
   - { label: "Migration", value: "Python pipeline" }
-  - { label: "Infra", value: "Terraform + Azure" }
 description: CFR.org — replatformed the Council on Foreign Relations publication from legacy Drupal to headless WordPress + NextJS with custom Gutenberg rendering blocks and Python content migration.
 ---
 
@@ -58,14 +55,10 @@ The clever bit: editorial components built in the WordPress **Gutenberg** block 
 
 A **Python pipeline** migrated the legacy Drupal content into the new WordPress structure — programmatically, repeatably, and safely. No manual migration of thousands of articles; the pipeline did the heavy lifting and could be re-run as source data was corrected.
 
-### Infrastructure
-
-Deployed via **Terraform** with **Azure DevOps** — infrastructure as code so the environment is reproducible and the deploy is repeatable.
-
 ## Why it matters
 
 CFR.org is the kind of project where the "boring" engineering — content modelling, migration pipelines, mapping blocks — is exactly what makes the difference between a replatform that ships and one that stalls. The result: a modern, fast publication with an editorial team that never had to change how they work.
 
 ## My role
 
-Lead engineer on the replatforming — architecture decisions, the headless WordPress + NextJS integration, the custom Gutenberg rendering blocks, the Python migration pipeline, and the Terraform/Azure deployment.
+Lead engineer on the replatforming — architecture decisions, the headless WordPress + NextJS integration, the custom Gutenberg rendering blocks, and the Python migration pipeline. The platform is live and I continue to work on it, shipping ongoing features and improvements.

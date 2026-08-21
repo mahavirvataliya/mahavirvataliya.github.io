@@ -1,37 +1,42 @@
 ---
 title: Org-wide Secure Deployment Platform
-tagline: The internal platform our teams deploy through — everything behind Cloudflare Zero Trust, shipped via Coolify.
+tagline: The internal platform our teams deploy through — self-hosted GitLab, Keycloak SSO, Vaultwarden, and Nextcloud, all behind Cloudflare Zero Trust.
 category: Infra
-period: 2024 – Present
-role: Owner & architect — platform design, access model, and rollout
+period: "2021 – Present"
+role: Owner & architect — platform design, access model, rollout, and five years of running it
 client: AtliQ Technologies (org-wide)
 featured: true
 order: 15
 accent: cyan
 stack:
   - Cloudflare Zero Trust
-  - Cloudflare Access
+  - Keycloak
+  - GitLab (self-hosted)
+  - Vaultwarden
+  - Nextcloud
+  - Uptime Kuma
+  - Termius
   - Coolify
   - Docker
-  - CI/CD (GitHub Actions)
-  - GitLab CI
+  - CI/CD (GitLab CI, GitHub Actions)
   - Terraform
 highlights:
   - "Every internal tool behind Cloudflare Zero Trust — nothing exposed to the public internet"
-  - "Coolify as self-hosted PaaS: push code, get TLS + running service, same baseline for every team"
-  - "Centralized access policies and audit trails instead of shared VPN credentials"
-  - "Built for the AI era — guardrails that keep deployment faster than the dirt path"
+  - "Keycloak SSO at auth.atliq.com — one identity for every internal service"
+  - "Self-hosted GitLab at gitlab.atliq.com for source control and CI"
+  - "Vaultwarden for org secrets, Nextcloud for the company drive, Uptime Kuma for the status page"
+  - "Five years of deploying, maintaining, and upgrading the platform in production"
 metrics:
   - { label: "Access", value: "Zero Trust" }
   - { label: "Exposure", value: "No public apps" }
-  - { label: "Deploy path", value: "Push → live" }
-  - { label: "Audit", value: "Centralized" }
-description: An org-wide secure deployment platform on Cloudflare Zero Trust + Coolify — how employees ship AI-built internal tools safely, quickly, and with full audit trails.
+  - { label: "Identity", value: "Keycloak SSO" }
+  - { label: "In production", value: "5+ years" }
+description: An org-wide secure deployment platform — Keycloak SSO, self-hosted GitLab, Vaultwarden, Nextcloud, and Uptime Kuma behind Cloudflare Zero Trust, run and upgraded in production for five years.
 ---
 
 ## Overview
 
-AI coding agents changed the rate at which internal tools get *created* inside a company. When anyone can build a working dashboard or automation in a day, the bottleneck moves from building to **deploying safely**. I run the platform that solved this for our organisation: **Cloudflare Zero Trust** for access, **Coolify** for deployment, and centralized audit trails for trust.
+AI coding agents changed the rate at which internal tools get *created* inside a company. When anyone can build a working dashboard or automation in a day, the bottleneck moves from building to **deploying safely**. I run the platform that solved this for our organisation — and have been running it for **five years**: **Cloudflare Zero Trust** for access, **Keycloak** for identity, **Coolify** for deployment, and a self-hosted stack of the services the org uses every day.
 
 The design principle: **guardrails, not gates.** A security process slower than the dirt path gets routed around; no process at all ends in a leaked secret. This platform is both fast and safe by default.
 
@@ -47,13 +52,24 @@ The answer isn't a gate. It's a paved road so good that the secure path *is* the
 
 ## What I built
 
-### Cloudflare Zero Trust — the access layer
+### Cloudflare Zero Trust + Keycloak — the access layer
 
-Every internal tool sits behind Cloudflare's edge, authenticated against our identity provider:
+Every internal tool sits behind Cloudflare's edge, authenticated against our identity provider — **Keycloak SSO at auth.atliq.com**:
 
 - **Nothing public.** No internal tool is exposed to the open internet — every request passes Cloudflare Access first.
+- **One identity for everything.** Keycloak is the single sign-on point for the whole org: GitLab, Nextcloud, the status page, and every deployed tool.
 - **No shared VPN credentials.** Access policies are centralized, per-app, and auditable.
 - **Same experience everywhere.** Office or café, the identity flow is identical — security that doesn't feel like punishment.
+
+### What runs on it — the self-hosted stack
+
+The platform isn't an empty shell teams deploy *into*; it runs the services the org relies on daily:
+
+- **GitLab** (gitlab.atliq.com) — self-hosted source control and CI. Our code, our runners, our retention rules.
+- **Vaultwarden** — a Bitwarden-compatible server for org secrets and shared credentials, ending secrets in chat messages and spreadsheets.
+- **Nextcloud** — the company drive: files, shares, and sync under our control instead of a third-party SaaS.
+- **Uptime Kuma** — the org status page. When something is down, there's a page that says so before anyone asks.
+- **Termius** — managed, auditable SSH access to the underlying servers.
 
 ### Coolify — the deployment layer
 
@@ -69,7 +85,11 @@ Deployments and access events flow through centralized logging. When anyone asks
 
 ### CI/CD wiring
 
-GitHub Actions and GitLab CI pipelines integrate with the platform, so the paved road starts at the repo: merge → build → deploy behind Zero Trust, automatically.
+GitLab CI (on our own runners) and GitHub Actions pipelines integrate with the platform, so the paved road starts at the repo: merge → build → deploy behind Zero Trust, automatically.
+
+### Five years of running it
+
+Deploying the platform was the start, not the end. I've **maintained and upgraded** this stack in production for the last five years — version upgrades to Keycloak, GitLab, and Nextcloud, certificate rotation, migration of services between hosts, and security patches — without the org ever losing a workday to the platform itself. Longevity is the part of platform engineering nobody demos, and it's the part that actually builds trust.
 
 ## Why it matters
 
@@ -77,4 +97,4 @@ This project is my answer to the question every organisation now faces: *how do 
 
 ## My role
 
-Owner and architect — platform selection, the Zero Trust access model, Coolify deployment, CI/CD integration, and the rollout that made teams trust it (the technical build is half the work; adoption is the other half).
+Owner and architect — platform selection, the Keycloak + Zero Trust access model, the self-hosted stack (GitLab, Vaultwarden, Nextcloud, Uptime Kuma), Coolify deployment, CI/CD integration, and the rollout that made teams trust it (the technical build is half the work; adoption is the other half). And for the last five years, the person who keeps it all patched, upgraded, and boringly reliable.
